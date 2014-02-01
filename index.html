@@ -1,50 +1,186 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Fredis : " />
+    <meta charset="utf-8">
+    <title>Fredis
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="F# Redis client">
+    <meta name="author" content="Victor Baybekov">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <script src="http://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="http://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
 
-    <title>Fredis</title>
+    <link type="text/css" rel="stylesheet" href="/Fredis/content/style.css" />
+    <script type="text/javascript" src="/Fredis/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/buybackoff/Fredis">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/Fredis/index.html">Fredis</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+<h1>Fredis</h1>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/buybackoff/Fredis">View on GitHub</a>
+<p>Documentation</p>
 
-          <h1 id="project_title">Fredis</h1>
-          <h2 id="project_tagline"></h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/buybackoff/Fredis/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/buybackoff/Fredis/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
+<div class="row">
+  <div class="span1"></div>
+  <div class="span6">
+    <div class="well well-small" id="nuget">
+      The Fredis library can be <a href="https://nuget.org/packages/Fredis">installed from NuGet</a>:
+      <pre>PM> Install-Package Fredis -Pre</pre>
     </div>
+  </div>
+  <div class="span1"></div>
+</div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
-<a name="fredis" class="anchor" href="#fredis"><span class="octicon octicon-link"></span></a>Fredis</h1>
-      </section>
+<h2>Example</h2>
+
+<p>This example demonstrates using a function defined in this sample library.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="prep">#r</span> <span class="s">&quot;</span><span class="s">BookSleeve</span><span class="s">.</span><span class="s">dll</span><span class="s">&quot;</span>
+<span class="prep">#r</span> <span class="s">&quot;</span><span class="s">Fredis</span><span class="s">.</span><span class="s">dll</span><span class="s">&quot;</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">System</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 3)" onmouseover="showTip(event, 'fs2', 3)" class="i">Text</span>
+
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs3', 4)" onmouseover="showTip(event, 'fs3', 4)" class="i">Fredis</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="i">connection</span> <span class="o">=</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs5', 6)" onmouseover="showTip(event, 'fs5', 6)" class="i">Connection</span>(<span class="s">&quot;</span><span class="s">localhost</span><span class="s">&quot;</span>)
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 7)" onmouseover="showTip(event, 'fs6', 7)" class="i">anotherReusedConnection</span> <span class="o">=</span> <span class="o">+</span><span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="i">connection</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 9)" onmouseover="showTip(event, 'fs7', 9)" class="i">subscriberChannel</span> <span class="o">=</span> <span class="o">%</span><span onmouseout="hideTip(event, 'fs4', 10)" onmouseover="showTip(event, 'fs4', 10)" class="i">connection</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 11)" onmouseover="showTip(event, 'fs8', 11)" class="i">r1</span> <span class="o">=</span> <span class="o">!!!</span><span onmouseout="hideTip(event, 'fs4', 12)" onmouseover="showTip(event, 'fs4', 12)" class="i">connection</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs9', 13)" onmouseover="showTip(event, 'fs9', 13)" class="i">Server</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="i">Ping</span>()
+<span class="o">!~!</span><span onmouseout="hideTip(event, 'fs4', 15)" onmouseover="showTip(event, 'fs4', 15)" class="i">connection</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 16)" onmouseover="showTip(event, 'fs11', 16)" class="i">Strings</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 17)" onmouseover="showTip(event, 'fs12', 17)" class="i">Set</span>(<span class="n">2</span>,<span class="s">&quot;</span><span class="s">k1</span><span class="s">&quot;</span>,<span class="s">&quot;</span><span class="s">1</span><span class="s">&quot;</span>)
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 18)" onmouseover="showTip(event, 'fs13', 18)" class="i">a&#39;</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs14', 19)" onmouseover="showTip(event, 'fs14', 19)" class="i">async</span>{
+        <span class="c">// Async.AwaitIAsyncResult &gt;&gt; Async.Ignore</span>
+        <span class="k">return!</span> <span class="o">!~</span><span onmouseout="hideTip(event, 'fs4', 20)" onmouseover="showTip(event, 'fs4', 20)" class="i">connection</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 21)" onmouseover="showTip(event, 'fs11', 21)" class="i">Strings</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 22)" onmouseover="showTip(event, 'fs12', 22)" class="i">Set</span>(<span class="n">1</span>,<span class="s">&quot;</span><span class="s">k1</span><span class="s">&quot;</span>,<span class="s">&quot;</span><span class="s">abc</span><span class="s">&quot;</span>)
+    } <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs15', 23)" onmouseover="showTip(event, 'fs15', 23)" class="i">Async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs16', 24)" onmouseover="showTip(event, 'fs16', 24)" class="i">StartImmediate</span>
+<span class="c">// !~! shortcut for (Async.AwaitIAsyncResult &gt;&gt; Async.Ignore &gt;&gt; Async.StartImmediate)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 25)" onmouseover="showTip(event, 'fs17', 25)" class="i">a</span> <span class="o">=</span> <span class="o">!~!</span><span onmouseout="hideTip(event, 'fs4', 26)" onmouseover="showTip(event, 'fs4', 26)" class="i">connection</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 27)" onmouseover="showTip(event, 'fs11', 27)" class="i">Strings</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 28)" onmouseover="showTip(event, 'fs12', 28)" class="i">Set</span>(<span class="n">1</span>,<span class="s">&quot;</span><span class="s">k1</span><span class="s">&quot;</span>,<span class="s">&quot;</span><span class="s">abc</span><span class="s">&quot;</span>) 
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 29)" onmouseover="showTip(event, 'fs18', 29)" class="i">r2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs14', 30)" onmouseover="showTip(event, 'fs14', 30)" class="i">async</span> { <span class="k">return!</span> <span class="o">!!</span><span onmouseout="hideTip(event, 'fs4', 31)" onmouseover="showTip(event, 'fs4', 31)" class="i">connection</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 32)" onmouseover="showTip(event, 'fs11', 32)" class="i">Strings</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs19', 33)" onmouseover="showTip(event, 'fs19', 33)" class="i">Append</span>(<span class="n">1</span>,<span class="s">&quot;</span><span class="s">k1</span><span class="s">&quot;</span>,<span class="s">&quot;</span><span class="s">def</span><span class="s">&quot;</span>) } <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs15', 34)" onmouseover="showTip(event, 'fs15', 34)" class="i">Async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs20', 35)" onmouseover="showTip(event, 'fs20', 35)" class="i">RunSynchronously</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 36)" onmouseover="showTip(event, 'fs21', 36)" class="i">r3</span> <span class="o">=</span> <span class="o">!!!</span><span onmouseout="hideTip(event, 'fs4', 37)" onmouseover="showTip(event, 'fs4', 37)" class="i">connection</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 38)" onmouseover="showTip(event, 'fs11', 38)" class="i">Strings</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 39)" onmouseover="showTip(event, 'fs22', 39)" class="i">GetString</span>(<span class="n">1</span>,<span class="s">&quot;</span><span class="s">k1</span><span class="s">&quot;</span>)</pre>
+</td>
+</tr>
+</table>
+
+<p>Some more info</p>
+
+<h2>Samples &amp; documentation</h2>
+
+<p>TDB</p>
+
+<h2>Contributing and copyright</h2>
+
+<p>The project is hosted on <a href="https://github.com/buybackoff/Fredis">GitHub</a> where you can <a href="https://github.com/buybackoff/Fredis/issues">report issues</a>, fork 
+the project and submit pull requests. If you're adding new public API, please also 
+consider adding <a href="https://github.com/buybackoff/Fredis/tree/master/docs/content">samples</a> that can be turned into a documentation. You might
+also want to read <a href="https://github.com/buybackoff/Fredis/blob/master/README.md">library design notes</a> to understand how it works.</p>
+
+<p>(c) Victor Baybekov 2014</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="i">http</span><span class="o">:</span><span class="c">//www.apache.org/licenses/LICENSE-2.0</span></pre>
+</td>
+</tr>
+</table>
+
+<p>This software is distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</p>
+
+<p>BookSleeve is licensed separately; see https://code.google.com/p/booksleeve/.
+Redis is licensed separately; see http://redis.io/.</p>
+
+<div class="tip" id="fs1">namespace System</div>
+<div class="tip" id="fs2">namespace System.Text</div>
+<div class="tip" id="fs3">namespace Fredis</div>
+<div class="tip" id="fs4">val connection : Connection<br /><br />Full name: Index.connection</div>
+<div class="tip" id="fs5">Multiple items<br />type Connection =<br />&#160;&#160;inherit RedisConnection<br />&#160;&#160;interface IDisposable<br />&#160;&#160;new : host:string * ?port:int * ?ioTimeout:int * ?password:string * ?maxUnsent:int * ?allowAdmin:bool * ?syncTimeout:int * ?maxPoolSize:int -&gt; Connection<br />&#160;&#160;member Use : Connection<br />&#160;&#160;static member ( ~+ ) : connection:Connection -&gt; Connection<br /><br />Full name: Fredis.Connection<br /><br />--------------------<br />new : host:string * ?port:int * ?ioTimeout:int * ?password:string * ?maxUnsent:int * ?allowAdmin:bool * ?syncTimeout:int * ?maxPoolSize:int -&gt; Connection</div>
+<div class="tip" id="fs6">val anotherReusedConnection : Connection<br /><br />Full name: Index.anotherReusedConnection</div>
+<div class="tip" id="fs7">val subscriberChannel : BookSleeve.RedisSubscriberConnection<br /><br />Full name: Index.subscriberChannel</div>
+<div class="tip" id="fs8">val r1 : int64<br /><br />Full name: Index.r1</div>
+<div class="tip" id="fs9">property BookSleeve.RedisConnection.Server: BookSleeve.IServerCommands</div>
+<div class="tip" id="fs10">BookSleeve.IServerCommands.Ping(?queueJump: bool) : Threading.Tasks.Task&lt;int64&gt;</div>
+<div class="tip" id="fs11">property BookSleeve.RedisConnection.Strings: BookSleeve.IStringCommands</div>
+<div class="tip" id="fs12">BookSleeve.IStringCommands.Set(db: int, values: Collections.Generic.Dictionary&lt;string,byte []&gt;, ?queueJump: bool) : Threading.Tasks.Task<br />BookSleeve.IStringCommands.Set(db: int, values: Collections.Generic.Dictionary&lt;string,string&gt;, ?queueJump: bool) : Threading.Tasks.Task<br />BookSleeve.IStringCommands.Set(db: int, key: string, value: byte [], ?queueJump: bool) : Threading.Tasks.Task<br />BookSleeve.IStringCommands.Set(db: int, key: string, value: int64, ?queueJump: bool) : Threading.Tasks.Task<br />BookSleeve.IStringCommands.Set(db: int, key: string, value: string, ?queueJump: bool) : Threading.Tasks.Task<br />BookSleeve.IStringCommands.Set(db: int, key: string, offset: int64, value: byte [], ?queueJump: bool) : Threading.Tasks.Task&lt;int64&gt;<br />BookSleeve.IStringCommands.Set(db: int, key: string, offset: int64, value: string, ?queueJump: bool) : Threading.Tasks.Task&lt;int64&gt;<br />BookSleeve.IStringCommands.Set(db: int, key: string, value: byte [], expirySeconds: int64, ?queueJump: bool) : Threading.Tasks.Task<br />BookSleeve.IStringCommands.Set(db: int, key: string, value: string, expirySeconds: int64, ?queueJump: bool) : Threading.Tasks.Task</div>
+<div class="tip" id="fs13">val a&#39; : unit<br /><br />Full name: Index.a&#39;</div>
+<div class="tip" id="fs14">val async : AsyncBuilder<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.async</div>
+<div class="tip" id="fs15">Multiple items<br />type Async<br />static member AsBeginEnd : computation:(&#39;Arg -&gt; Async&lt;&#39;T&gt;) -&gt; (&#39;Arg * AsyncCallback * obj -&gt; IAsyncResult) * (IAsyncResult -&gt; &#39;T) * (IAsyncResult -&gt; unit)<br />static member AwaitEvent : event:IEvent&lt;&#39;Del,&#39;T&gt; * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt; (requires delegate and &#39;Del :&gt; Delegate)<br />static member AwaitIAsyncResult : iar:IAsyncResult * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;<br />static member AwaitTask : task:Task&lt;&#39;T&gt; -&gt; Async&lt;&#39;T&gt;<br />static member AwaitWaitHandle : waitHandle:WaitHandle * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;<br />static member CancelDefaultToken : unit -&gt; unit<br />static member Catch : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;Choice&lt;&#39;T,exn&gt;&gt;<br />static member FromBeginEnd : beginAction:(AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg:&#39;Arg1 * beginAction:(&#39;Arg1 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg1:&#39;Arg1 * arg2:&#39;Arg2 * beginAction:(&#39;Arg1 * &#39;Arg2 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg1:&#39;Arg1 * arg2:&#39;Arg2 * arg3:&#39;Arg3 * beginAction:(&#39;Arg1 * &#39;Arg2 * &#39;Arg3 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromContinuations : callback:((&#39;T -&gt; unit) * (exn -&gt; unit) * (OperationCanceledException -&gt; unit) -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member Ignore : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;unit&gt;<br />static member OnCancel : interruption:(unit -&gt; unit) -&gt; Async&lt;IDisposable&gt;<br />static member Parallel : computations:seq&lt;Async&lt;&#39;T&gt;&gt; -&gt; Async&lt;&#39;T []&gt;<br />static member RunSynchronously : computation:Async&lt;&#39;T&gt; * ?timeout:int * ?cancellationToken:CancellationToken -&gt; &#39;T<br />static member Sleep : millisecondsDueTime:int -&gt; Async&lt;unit&gt;<br />static member Start : computation:Async&lt;unit&gt; * ?cancellationToken:CancellationToken -&gt; unit<br />static member StartAsTask : computation:Async&lt;&#39;T&gt; * ?taskCreationOptions:TaskCreationOptions * ?cancellationToken:CancellationToken -&gt; Task&lt;&#39;T&gt;<br />static member StartChild : computation:Async&lt;&#39;T&gt; * ?millisecondsTimeout:int -&gt; Async&lt;Async&lt;&#39;T&gt;&gt;<br />static member StartChildAsTask : computation:Async&lt;&#39;T&gt; * ?taskCreationOptions:TaskCreationOptions -&gt; Async&lt;Task&lt;&#39;T&gt;&gt;<br />static member StartImmediate : computation:Async&lt;unit&gt; * ?cancellationToken:CancellationToken -&gt; unit<br />static member StartWithContinuations : computation:Async&lt;&#39;T&gt; * continuation:(&#39;T -&gt; unit) * exceptionContinuation:(exn -&gt; unit) * cancellationContinuation:(OperationCanceledException -&gt; unit) * ?cancellationToken:CancellationToken -&gt; unit<br />static member SwitchToContext : syncContext:SynchronizationContext -&gt; Async&lt;unit&gt;<br />static member SwitchToNewThread : unit -&gt; Async&lt;unit&gt;<br />static member SwitchToThreadPool : unit -&gt; Async&lt;unit&gt;<br />static member TryCancelled : computation:Async&lt;&#39;T&gt; * compensation:(OperationCanceledException -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member CancellationToken : Async&lt;CancellationToken&gt;<br />static member DefaultCancellationToken : CancellationToken<br /><br />Full name: Microsoft.FSharp.Control.Async<br /><br />--------------------<br />type Async&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Control.Async&lt;_&gt;</div>
+<div class="tip" id="fs16">static member Async.StartImmediate : computation:Async&lt;unit&gt; * ?cancellationToken:Threading.CancellationToken -&gt; unit</div>
+<div class="tip" id="fs17">val a : unit<br /><br />Full name: Index.a</div>
+<div class="tip" id="fs18">val r2 : int64<br /><br />Full name: Index.r2</div>
+<div class="tip" id="fs19">BookSleeve.IStringCommands.Append(db: int, key: string, value: byte [], ?queueJump: bool) : Threading.Tasks.Task&lt;int64&gt;<br />BookSleeve.IStringCommands.Append(db: int, key: string, value: string, ?queueJump: bool) : Threading.Tasks.Task&lt;int64&gt;</div>
+<div class="tip" id="fs20">static member Async.RunSynchronously : computation:Async&lt;&#39;T&gt; * ?timeout:int * ?cancellationToken:Threading.CancellationToken -&gt; &#39;T</div>
+<div class="tip" id="fs21">val r3 : string<br /><br />Full name: Index.r3</div>
+<div class="tip" id="fs22">BookSleeve.IStringCommands.GetString(db: int, keys: string [], ?queueJump: bool) : Threading.Tasks.Task&lt;string []&gt;<br />BookSleeve.IStringCommands.GetString(db: int, key: string, ?queueJump: bool) : Threading.Tasks.Task&lt;string&gt;<br />BookSleeve.IStringCommands.GetString(db: int, key: string, start: int, end: int, ?queueJump: bool) : Threading.Tasks.Task&lt;string&gt;</div>
+
+        </div>
+        <div class="span3">
+          <img src="img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu">
+            <li class="nav-header">Fredis</li>
+            <li><a href="/Fredis/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.com/packages/Fredis">Get Library via NuGet</a></li>
+            <li><a href="http://github.com/buybackoff/Fredis">Source Code on GitHub</a></li>
+            <li><a href="http://github.com/buybackoff/Fredis/blob/master/LICENSE.txt">License</a></li>
+            <li><a href="http://github.com/buybackoff/Fredis/blob/master/RELEASE_NOTES.md">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/Fredis/tutorial.html">Sample tutorial</a></li>
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/Fredis/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Fredis maintained by <a href="https://github.com/buybackoff">buybackoff</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
+    <a href="http://github.com/buybackoff/Fredis"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
   </body>
-</html>
+  </html>
