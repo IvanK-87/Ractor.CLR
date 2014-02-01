@@ -35,7 +35,7 @@
           
 <h1>Fredis</h1>
 
-<p>Documentation</p>
+<h2>Install</h2>
 
 <div class="row">
   <div class="span1"></div>
@@ -48,7 +48,7 @@
   <div class="span1"></div>
 </div>
 
-<h2>Example</h2>
+<h2>Usage Example</h2>
 
 <p>This example demonstrates using a function defined in this sample library.</p>
 
@@ -74,6 +74,8 @@
 <span class="l">19: </span>
 <span class="l">20: </span>
 <span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
@@ -96,17 +98,13 @@
     } <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs15', 23)" onmouseover="showTip(event, 'fs15', 23)" class="i">Async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs16', 24)" onmouseover="showTip(event, 'fs16', 24)" class="i">StartImmediate</span>
 <span class="c">// !~! shortcut for (Async.AwaitIAsyncResult &gt;&gt; Async.Ignore &gt;&gt; Async.StartImmediate)</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 25)" onmouseover="showTip(event, 'fs17', 25)" class="i">a</span> <span class="o">=</span> <span class="o">!~!</span><span onmouseout="hideTip(event, 'fs4', 26)" onmouseover="showTip(event, 'fs4', 26)" class="i">connection</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 27)" onmouseover="showTip(event, 'fs11', 27)" class="i">Strings</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 28)" onmouseover="showTip(event, 'fs12', 28)" class="i">Set</span>(<span class="n">1</span>,<span class="s">&quot;</span><span class="s">k1</span><span class="s">&quot;</span>,<span class="s">&quot;</span><span class="s">abc</span><span class="s">&quot;</span>) 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 29)" onmouseover="showTip(event, 'fs18', 29)" class="i">r2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs14', 30)" onmouseover="showTip(event, 'fs14', 30)" class="i">async</span> { <span class="k">return!</span> <span class="o">!!</span><span onmouseout="hideTip(event, 'fs4', 31)" onmouseover="showTip(event, 'fs4', 31)" class="i">connection</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 32)" onmouseover="showTip(event, 'fs11', 32)" class="i">Strings</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs19', 33)" onmouseover="showTip(event, 'fs19', 33)" class="i">Append</span>(<span class="n">1</span>,<span class="s">&quot;</span><span class="s">k1</span><span class="s">&quot;</span>,<span class="s">&quot;</span><span class="s">def</span><span class="s">&quot;</span>) } <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs15', 34)" onmouseover="showTip(event, 'fs15', 34)" class="i">Async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs20', 35)" onmouseover="showTip(event, 'fs20', 35)" class="i">RunSynchronously</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 29)" onmouseover="showTip(event, 'fs18', 29)" class="i">r2</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs14', 30)" onmouseover="showTip(event, 'fs14', 30)" class="i">async</span> { <span class="k">return!</span> <span class="o">!!</span><span onmouseout="hideTip(event, 'fs4', 31)" onmouseover="showTip(event, 'fs4', 31)" class="i">connection</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 32)" onmouseover="showTip(event, 'fs11', 32)" class="i">Strings</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs19', 33)" onmouseover="showTip(event, 'fs19', 33)" class="i">Append</span>(<span class="n">1</span>,<span class="s">&quot;</span><span class="s">k1</span><span class="s">&quot;</span>,<span class="s">&quot;</span><span class="s">def</span><span class="s">&quot;</span>) } 
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs15', 34)" onmouseover="showTip(event, 'fs15', 34)" class="i">Async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs20', 35)" onmouseover="showTip(event, 'fs20', 35)" class="i">RunSynchronously</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 36)" onmouseover="showTip(event, 'fs21', 36)" class="i">r3</span> <span class="o">=</span> <span class="o">!!!</span><span onmouseout="hideTip(event, 'fs4', 37)" onmouseover="showTip(event, 'fs4', 37)" class="i">connection</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 38)" onmouseover="showTip(event, 'fs11', 38)" class="i">Strings</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 39)" onmouseover="showTip(event, 'fs22', 39)" class="i">GetString</span>(<span class="n">1</span>,<span class="s">&quot;</span><span class="s">k1</span><span class="s">&quot;</span>)</pre>
 </td>
 </tr>
 </table>
-
-<p>Some more info</p>
-
-<h2>Samples &amp; documentation</h2>
-
-<p>TDB</p>
 
 <h2>Contributing and copyright</h2>
 
@@ -115,27 +113,8 @@ the project and submit pull requests. If you're adding new public API, please al
 consider adding <a href="https://github.com/buybackoff/Fredis/tree/master/docs/content">samples</a> that can be turned into a documentation. You might
 also want to read <a href="https://github.com/buybackoff/Fredis/blob/master/README.md">library design notes</a> to understand how it works.</p>
 
-<p>(c) Victor Baybekov 2014</p>
-
-<p>Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at</p>
-
-<table class="pre"><tr><td class="lines"><pre class="fssnip">
-<span class="l">1: </span>
-</pre>
-</td>
-<td class="snippet"><pre class="fssnip">
-<span class="i">http</span><span class="o">:</span><span class="c">//www.apache.org/licenses/LICENSE-2.0</span></pre>
-</td>
-</tr>
-</table>
-
-<p>This software is distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</p>
-
-<p>BookSleeve is licensed separately; see https://code.google.com/p/booksleeve/.
-Redis is licensed separately; see http://redis.io/.</p>
+<p>(c) Victor Baybekov 2014.
+Licensed under the Apache License, Version 2.0 (the "License")</p>
 
 <div class="tip" id="fs1">namespace System</div>
 <div class="tip" id="fs2">namespace System.Text</div>
