@@ -9,8 +9,8 @@
 // TODO! ensure that we are alway reusing an existing Redis instance for each connection string
 // TODO Logstash/Kibana integration for logging
 
-namespace Ractor.FSharp
 
+namespace Ractor.FSharp.Archive
 open System
 open Ractor
 // TODO? PreserveOrder option is possible - is it needed?
@@ -81,7 +81,7 @@ type Actor<'Task, 'TResult>() as this =
     member this.BlobStorage with get() = Connections.GetBlobStorage()
     member this.GetBlobStorage(id) = Connections.GetBlobStorage(id)
 
-namespace Ractor
+namespace Ractor.Archive
 
 open System
 open System.Linq
@@ -95,7 +95,6 @@ open System.Web.Hosting
 open System.Runtime.InteropServices
 open System.Runtime.CompilerServices
 open Ractor
-open Hopac
 
 
 [<AbstractClassAttribute>]

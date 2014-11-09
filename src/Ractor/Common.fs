@@ -5,6 +5,10 @@ open System.Collections.Generic
 open System.Threading
 open System.Threading.Tasks
 
+open Hopac
+open Hopac.Extensions
+open Hopac.Job.Infixes
+open Hopac.Alt.Infixes
 
 
 type Message<'T>(value:'T, hasError:bool, error:Exception) = 
@@ -44,6 +48,37 @@ type AsyncManualResetEvent () =
                     loop()
             loop ()
 
+/// <summary>
+/// TODO Rethink, this could be very wrong
+/// </summary>
+type HopacManualResetEvent (initialState : bool) =
+    //http://blogs.msdn.com/b/pfxteam/archive/2012/02/11/10266920.aspx
+    [<VolatileFieldAttribute>]
+    let mutable state : ref<bool> = ref initialState
+    let setChannel : Ch<bool> = ch()
+    new() = HopacManualResetEvent(false)
+
+    member this.Wait() : Job<bool> =
+        let rec loop () = 
+            job {
+                if !state then return true 
+                else 
+                    let! res = (Ch.take setChannel)
+                    if res then return true
+                    else return! loop()
+            }
+        loop ()
+
+    member this.Set() : Job<unit> = 
+        (Ch.Try.give setChannel true)   // there could be no takers
+        |>> (fun _ -> state := true )   // in any case we set the state
+        >>% ()                          // and return unit
+
+    member this.Reset() : Job<unit> = 
+        (Ch.Try.give setChannel false)  // if there are takers, res in loop() will be false and loop will iterate
+        |>> (fun _ -> state := false )  // in any case we set the state
+        >>% ()
+
 type AsyncAutoResetEvent () =
     //http://blogs.msdn.com/b/pfxteam/archive/2012/02/11/10266923.aspx
     static let mutable s_completed = Task.FromResult(true)
@@ -77,6 +112,25 @@ type AsyncAutoResetEvent () =
         finally
             Monitor.Exit(m_waits)
 
+
+/// <summary>
+/// Hopac's channels by themselves are more advanced AutoResetEvent, we could pass values
+/// via channels
+/// </summary>
+type HopacAutoResetEvent (initialState : bool) =
+    // We will wait on take, and set with send
+    let setChannel : Ch<unit> = ch()
+    do if initialState then start <| Ch.send setChannel ()
+    new() = HopacAutoResetEvent(false)
+    member this.Wait(timeout:int) : Job<bool> = 
+            let timedOut : Alt<bool> = 
+                ((float timeout) 
+                |> TimeSpan.FromMilliseconds 
+                |> Timer.Global.timeOut
+                ) >>=? fun () -> Job.result false
+            let signaled = Ch.Alt.take setChannel >>=? fun () -> Job.result true
+            signaled <|> timedOut
+    member this.Set() : Job<unit> = Ch.send setChannel ()
 
 
 [<AutoOpenAttribute>]
