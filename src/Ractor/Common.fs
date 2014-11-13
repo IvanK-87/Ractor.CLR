@@ -6,6 +6,7 @@ open System.Threading
 open System.Threading.Tasks
 
 open Hopac
+open Hopac.Extra
 open Hopac.Extensions
 open Hopac.Job.Infixes
 open Hopac.Alt.Infixes
@@ -49,35 +50,40 @@ type AsyncManualResetEvent () =
             loop ()
 
 /// <summary>
-/// TODO Rethink, this could be very wrong
+/// Hopac's alternative to http://blogs.msdn.com/b/pfxteam/archive/2012/02/11/10266920.aspx
 /// </summary>
 type HopacManualResetEvent (initialState : bool) =
-    //http://blogs.msdn.com/b/pfxteam/archive/2012/02/11/10266920.aspx
     [<VolatileFieldAttribute>]
-    let mutable state : ref<bool> = ref initialState
-    let setChannel : Ch<bool> = ch()
+    let mutable state : bool = initialState
+    let setChannel : MChan<bool> = run <| Multicast.create ()
+    let lock = Lock.Now.create()
     new() = HopacManualResetEvent(false)
 
     member this.Wait() : Job<bool> =
         let rec loop () = 
             job {
-                if !state then return true 
+                if state then return true 
                 else 
-                    let! res = (Ch.take setChannel)
+                    let! port = Multicast.port setChannel
+                    let! res = (Multicast.recv port) // waiting here
                     if res then return true
-                    else return! loop()
+                    else return! loop ()
             }
         loop ()
 
+    // From Multicast.fsi: **Sends** a message to all of the ports listening to the multicast channel.
+    // Send must mean the same as in Ch
     member this.Set() : Job<unit> = 
-        (Ch.Try.give setChannel true)   // there could be no takers
-        |>> (fun _ -> state := true )   // in any case we set the state
+        (Multicast.multicast setChannel true)   // there could be no waiters
+        |>> (fun _ -> state <- true )   // in any case we set the state
         >>% ()                          // and return unit
+        |> (Lock.duringJob lock)
 
     member this.Reset() : Job<unit> = 
-        (Ch.Try.give setChannel false)  // if there are takers, res in loop() will be false and loop will iterate
-        |>> (fun _ -> state := false )  // in any case we set the state
+        (Multicast.multicast setChannel false) // (redundant?) if there are takers, res in loop() will be false and loop will iterate
+        |>> (fun _ -> state <- false )  // in any case we set the state
         >>% ()
+        |> (Lock.duringJob lock)
 
 type AsyncAutoResetEvent () =
     //http://blogs.msdn.com/b/pfxteam/archive/2012/02/11/10266923.aspx
@@ -112,10 +118,13 @@ type AsyncAutoResetEvent () =
         finally
             Monitor.Exit(m_waits)
 
-
 /// <summary>
-/// Hopac's channels by themselves are more advanced AutoResetEvent, we could pass values
-/// via channels
+/// MSDN: The AutoResetEvent class represents a local wait handle event that resets automatically 
+/// when signaled, after releasing a single waiting thread. An AutoResetEvent object is automatically 
+/// reset to non-signaled by the system after a single waiting thread has been released. 
+/// If no threads are waiting, the event object's state remains signaled.
+///
+/// Hopac's alternative to http://blogs.msdn.com/b/pfxteam/archive/2012/02/11/10266923.aspx
 /// </summary>
 type HopacAutoResetEvent (initialState : bool) =
     // We will wait on take, and set with send
@@ -124,13 +133,27 @@ type HopacAutoResetEvent (initialState : bool) =
     new() = HopacAutoResetEvent(false)
     member this.Wait(timeout:int) : Job<bool> = 
             let timedOut : Alt<bool> = 
-                ((float timeout) 
-                |> TimeSpan.FromMilliseconds 
-                |> Timer.Global.timeOut
-                ) >>=? fun () -> Job.result false
+                ((float timeout) |> TimeSpan.FromMilliseconds |> Timer.Global.timeOut)
+                >>=? fun () -> Job.result false
             let signaled = Ch.Alt.take setChannel >>=? fun () -> Job.result true
             signaled <|> timedOut
-    member this.Set() : Job<unit> = Ch.send setChannel ()
+
+    // From docs, important for <|>:
+    // The given alternatives are processed in a left-to-right order with short-cut evaluation. 
+    // In other words, given an alternative of the form first <|> second, the first alternative 
+    // is first instantiated and, if it is pickable, is committed to and the second alternative 
+    // will not be instantiated at all.
+
+    member this.Set() : Job<unit> = 
+        // from MSDN: Also, if Set is called when there are no threads waiting and the EventWaitHandle 
+        // is already signaled, the call has no effect.
+
+        // try take and send covers all cases
+        // if there was no waiters and state was signalled -> will steal the state and send it back immediately
+        // if there were waiting thread or state was not signaled -> there was no signal and we steal nothing, just signal
+        (Ch.Try.take setChannel) >>. Ch.send setChannel ()
+
+
 
 
 [<AutoOpenAttribute>]
